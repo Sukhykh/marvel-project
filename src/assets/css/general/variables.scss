@@ -1,0 +1,30 @@
+// fonts
+$fw400: 400;
+$fw700: 700;
+
+//colors
+$redNeon: #ED1D24;
+$greenNeon: #39ff14;
+$gray: #4A4A4A;
+$black: #000000;
+$white: #ffffff;
+//$globalBackgroundColor: $redNeon;
+
+html:has([data-theme='heroes']) {
+    $globalBackgroundColor: $white;
+}
+
+html:has([data-theme='comics']) {
+    $globalBackgroundColor: $black;
+}
+
+/*
+// heroes theme
+html[data-theme='heroes'] {
+    $globalBackgroundColor: $whit;
+}
+
+// comics theme
+html[data-theme='comics'] {
+    $globalBackgroundColor: $black;
+}*/

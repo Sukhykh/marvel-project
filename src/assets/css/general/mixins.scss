@@ -1,0 +1,12 @@
+// fonts
+@mixin font($fw) {
+    font-family: 'Oswald', sans-serif;
+    font-weight: $fw;
+}
+
+
+@mixin container {
+    max-width: 120rem;
+    margin-inline: auto;
+    width: 100%;
+}
