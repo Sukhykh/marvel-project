@@ -1,7 +1,8 @@
 @import "./general/general.scss";
+@import './general/variables.scss';
 
 .header {
-    background-color: $white;
+    background-color: var(--globalBackgroundColor);
 
     &__container {
         @include container;
@@ -13,26 +14,34 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        gap: dinamicValues(100px);
     }
 
     &__link {
+        min-width: max-content;
         @include font($fw400);
         font-size: 2rem;
         line-height: 120%;
-        color: $black;
+        color: var(--globalTextColor);
         text-decoration: none;
+
+        margin: auto 0;
 
         transition: all 0.3s linear;
 
+        @media screen and (max-width: 500px) {
+            font-size: 1.5rem;
+        }
+
         &:hover,
         &:focus {
-            color: $redNeon;
+            color: var(--globalThemeColor);
             outline: none;
         }
 
         &:active {
-            text-shadow: 0 0 1px $black, 0 0 2px $greenNeon;
+            text-shadow: 0 0 0.2rem var(--globalFirstShadowColorRevers),
+                0 0 2rem var(--globalSecondShadowColorRevers);
         }
     }
 }

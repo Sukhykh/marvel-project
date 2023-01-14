@@ -1,0 +1,56 @@
+:root {
+    --redNeon: #ED1D24;
+    --greenNeon: #39ff14;
+    --gray: #4A4A4A;
+    --black: #000000;
+    --white: #ffffff;
+}
+
+html[data-theme='heroes'] {
+    --globalBackgroundColor: var(--white);
+    --globalBackgroundColorRevers: var(--black);
+
+    --globalTextColor: var(--black);
+    --globalTextColorRevers: var(--white);
+
+    --globalThemeColor: var(--redNeon);
+    --globalThemeColorRevers: var(--greenNeon);
+
+    /*special*/
+    --globalFirstShadowColor: var(--black);
+    --globalFirstShadowColorRevers: var(--white);
+
+    --globalSecondShadowColor: var(--greenNeon);
+    --globalSecondShadowColorRevers: var(--redNeon);
+
+    --globalLincColor: var(--white);
+    --globalLinctColorRevers: var(--black);
+
+    --globalLincHoverColor: var(--greenNeon);
+    --globalLincHoverColorRevers: var(--redNeon);
+}
+
+html[data-theme='comics'] {
+    --globalBackgroundColor: var(--black);
+    --globalBackgroundColorRevers: var(--white);
+
+    --globalTextColor: var(--white);
+    --globalTextColorRevers: var(--black);
+    
+    --globalThemeColor: var(--greenNeon);
+    --globalThemeColorRevers: var(--redNeon);
+        
+    /*special*/
+    --globalFirstShadowColor: var(--white);
+    --globalFirstShadowColorRevers: var(--black);
+
+    --globalSecondShadowColor: var(--redNeon);
+    --globalSecondShadowColorRevers: var(--greenNeon);
+
+    --globalLincColor: var(--black);
+    --globalLinctColorRevers: var(--white);
+
+    --globalLincHoverColor: var(--redNeon);
+    --globalLincHoverColorRevers: var(--greenNeon);
+    
+}

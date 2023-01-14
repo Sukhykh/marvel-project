@@ -1,23 +1,78 @@
 @import "./general/general.scss";
 
 .menu {
+    width: 100%;
     display: flex;
     flex-direction: row;
     list-style: none;
 }
 
 .menu-list {
+    width: 50%;
     list-style: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    cursor: pointer;
+    background-color: var(--globalBackgroundColor);
 
-    padding: 0.5rem 2rem;
+    &__link {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: dinamicValues(10px);
+
+        width: 100%;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        text-decoration: none;
+
+        &:hover,
+        &:focus {
+            outline: none;
+
+            & .menu-list__title {
+                &--true {
+                    color: var(--globalLincHoverColor);
+                }
+
+                &--false {
+                    color: var(--globalLincHoverColorRevers);
+                }
+            }
+        }
+
+        &:active {
+            & .menu-list__title {
+                &--true {
+                    text-shadow: 0 0 0.2rem var(--globalFirstShadowColor),
+                        0 0 2rem var(--globalSecondShadowColor);
+                }
+
+                &--false {
+                    text-shadow: 0 0 0.2rem var(--globalFirstShadowColorRevers),
+                        0 0 2rem var(--globalSecondShadowColorRevers);
+                }
+            }
+        }
+
+        &--true {
+            background-color: var(--globalBackgroundColorRevers);
+        }
+
+        &--false {
+            background-color: var(--globalBackgroundColor);
+        }
+    }
 
     &__img-wrapper {
         width: 4rem;
         height: 4rem;
+
+        @media screen and (max-width: 500px) {
+            width: 3rem;
+            height: 3rem;
+        }
     }
 
     &__img {
@@ -25,10 +80,29 @@
         height: 100%;
     }
 
-    &__title {
-        @include font(fw700);
-        font-size: 3rem;
-        line-height: 120%;
+    &__title-wrapper {
+        transition: all 0.3s linear;
 
+        &--none {
+            width: 0;
+            transform: scale(0)
+        }
+    }
+
+    &__title {
+        @include font($fw700);
+        font-size: 2.5rem;
+        line-height: 120%;
+        text-transform: uppercase;
+
+        transition: all 0.3s linear;
+
+        &--true {
+            color: var(--globalLincColor);
+        }
+
+        &--false {
+            color: var(--globalLinctColorRevers);
+        }
     }
 }

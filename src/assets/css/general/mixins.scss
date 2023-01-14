@@ -1,12 +1,35 @@
+//basic
+html {
+    font-size: 10px;
+}
+
+//function
+@function dinamicValues($n) {
+    @return calc($n / 1200px) * 100 * 1vw;
+}
+
 // fonts
 @mixin font($fw) {
     font-family: 'Oswald', sans-serif;
     font-weight: $fw;
 }
 
-
 @mixin container {
-    max-width: 120rem;
+    max-width: dinamicValues(1170px);
     margin-inline: auto;
     width: 100%;
+
+    @media screen and (min-width: 1200px) {
+        max-width: 1170px;
+    }
+}
+
+@mixin sliderContainer {
+    max-width: dinamicValues(1000px);
+    margin-inline: auto;
+    width: 100%;
+
+    @media screen and (min-width: 1200px) {
+        max-width: 1000px;
+    }
 }

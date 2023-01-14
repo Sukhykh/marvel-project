@@ -1,1 +1,15 @@
 @import "./general/general.scss";
+
+.main {
+    background-color: var(--globalBackgroundColor);
+
+    &__container {
+        background-color: var(--globalBackgroundColorRevers);
+        @include container;
+        border-radius: 2rem;
+    }
+
+    &__wrapper {
+        padding: dinamicValues(30px);
+    }
+}

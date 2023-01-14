@@ -3,7 +3,7 @@ import '../assets/css/Header.scss';
 import Logo from './Logo';
 import MenuFull from './MenuFull';
 
-function Header() {
+export default function Header() {
 	let themeName = 'light';
 	return (
 		<header className='header'>
@@ -24,5 +24,3 @@ function Header() {
 		</header>
 	);
 }
-
-export default Header;

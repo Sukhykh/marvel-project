@@ -15,7 +15,7 @@ function Logo(props) {
 				<a className='logo__link' href='#'>
 					<svg className='logo__svg'>
 						<use
-							className={'logo__img logo__img--' + classColor}
+							className='logo__img'
 							xlinkHref={logo + '#logo'}
 						></use>
 					</svg>
