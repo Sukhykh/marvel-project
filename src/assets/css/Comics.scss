@@ -1,6 +1,89 @@
 @import "./general/general.scss";
 
 .comics {
-    background-color: coral;
-    height: 20rem;
+    background-color: var(--globalBackgroundColorRevers);
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+    }
+
+    &__search {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 5rem;
+
+        @media screen and (max-width: 700px) {
+            flex-direction: column;
+            gap: 2rem;
+        }
+    }
+
+    &__search-area {
+        display: flex;
+        width: 100%;
+        background-color: var(--globalBackgroundColorRevers);
+        border: none;
+        border-bottom: 1px solid var(--globalTextColorRevers);
+
+        padding: 0.5rem;
+
+        color: var(--globalTextColorRevers);
+        @include font ($fw400);
+        font-size: 2rem;
+        line-height: 120%;
+
+        transition: all 0.3s linear;
+
+        &::placeholder {
+            color: var(--globalTextColorRevers);
+            @include font ($fw400);
+            font-size: 2rem;
+            line-height: 120%;
+            opacity: 0.5;
+        }
+
+        &:focus,
+        &:hover {
+            border-bottom: 1px solid var(--globalThemeColorRevers);
+        }
+
+        @media screen and (max-width: 700px) {
+            width: unset;
+        }
+    }
+
+    &__search-btn {
+        min-width: max-content;
+        max-width: max-content;
+        background-color: var(--globalBackgroundColorRevers);
+        border: 0.2rem solid var(--globalTextColorRevers);
+        border-radius: 1rem;
+        padding: 1rem 3.5rem;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        transition: all 0.3s linear;
+
+        color: var(--globalTextColorRevers);
+        @include font ($fw400);
+        font-size: 2rem;
+        line-height: 120%;
+
+        &:focus,
+        &:hover {
+            color: var(--globalThemeColorRevers);
+            border-color: var(--globalThemeColorRevers);
+        }
+
+        &:active {
+            color: var(--globalThemeColorRevers);
+            box-shadow: 0 0 0.5rem 0.5rem var(--globalThemeColorRevers), inset 0 0 0.5rem 0.5rem var(--globalThemeColorRevers);
+        }
+    }
+
+
+
 }

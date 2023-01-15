@@ -65,7 +65,7 @@ function MenuFull() {
 							? 'menu-list__link menu-list__link--true'
 							: 'menu-list__link menu-list__link--false'
 					}
-					to='/'
+					to='marvel-project/'
 				>
 					<div className='menu-list__img-wrapper'>
 						<img
@@ -102,7 +102,7 @@ function MenuFull() {
 							? 'menu-list__link menu-list__link--true'
 							: 'menu-list__link menu-list__link--false'
 					}
-					to='/comics'
+					to='marvel-project/comics'
 				>
 					<div className='menu-list__img-wrapper'>
 						<img

@@ -1,0 +1,29 @@
+@import "./general/general.scss";
+
+.footer {
+    background-color: var(--globalBackgroundColor);
+    padding: 5rem 0;
+
+    &__container {
+        @include container;
+    }
+
+    &__wrapper {
+        display: flex;
+    }
+
+    &__divider {
+        margin-top: 5rem;
+        border-bottom: 0.2rem solid var(--globalThemeColor);
+        width: 100%;
+    }
+
+    &__copy {
+        margin-top: 1rem;
+        text-align: center;
+        @include font($fw700);
+        font-size: 1.3rem;
+        line-height: 120%;
+        color: var(--globalTextColor);
+    }
+}

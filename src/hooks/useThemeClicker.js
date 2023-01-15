@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 export function useThemeClicker() {
-	//
 	const getTheme = () => {
 		const theme = localStorage.getItem('themeValue');
 		if (!theme) {
@@ -11,8 +10,7 @@ export function useThemeClicker() {
 			return theme;
 		}
 	};
-	//
-	//const [theme, setTheme] = useState('heroes');
+
 	const [theme, setTheme] = useState(getTheme);
 
 	useEffect(() => {

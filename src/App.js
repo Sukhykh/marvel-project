@@ -15,8 +15,8 @@ function App() {
 				<div className='main__container'>
 					<div className='main__wrapper'>
 						<Routes>
-							<Route path='/' element={<Heroes />}></Route>
-							<Route path='/comics' element={<Comics />}></Route>
+							<Route path='marvel-project/' element={<Heroes />}></Route>
+							<Route path='marvel-project/comics' element={<Comics />}></Route>
 						</Routes>
 					</div>
 				</div>
