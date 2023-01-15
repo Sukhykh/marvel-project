@@ -94,7 +94,6 @@ export default function Heroes() {
 	//запит на деталі по герою
 	function showHeroDetails(event) {
 		let heroId = event.target.getAttribute('data-id');
-		console.log(event.target);
 		axios({
 			url: `https://gateway.marvel.com:443/v1/public/characters/${heroId}`,
 			method: 'GET',
@@ -106,14 +105,19 @@ export default function Heroes() {
 			.then((res) => {
 				let heroesMain = document.getElementById('heroes');
 				heroesMain.append(createHeroDetails(res.data.data.results[0]));
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth',
+				});
+				addListenerToModal();
 			})
 			.catch(() => {});
 	}
 
 	// створення модалки
 	function createHeroDetails(item) {
+		let urlArrayValue = urlArrayGetter(item.urls);
 		let urlValue = urlGetter(item.thumbnail);
-		console.log(item);
 
 		let heroModal = document.createElement('div');
 		heroModal.classList.add('hero-modal');
@@ -140,13 +144,13 @@ export default function Heroes() {
 		progressBarWrap.classList.add('progress');
 		imgWrap.append(progressBarWrap);
 
-		let progressStr = progressBar('strength', '--str');
+		let progressStr = progressBar('strength', '#ED1D24');
 		progressBarWrap.append(progressStr);
 
-		let progressAgil = progressBar('agility', '--agil');
+		let progressAgil = progressBar('agility', '#FF5F1F');
 		progressBarWrap.append(progressAgil);
 
-		let progressInt = progressBar('intelligence', '--int');
+		let progressInt = progressBar('intelligence', '#1F51FF');
 		progressBarWrap.append(progressInt);
 
 		let textWrap = document.createElement('div');
@@ -167,17 +171,16 @@ export default function Heroes() {
 		}
 		textWrap.append(descr);
 
-		let urlArrayValue = urlArrayGetter(item.urls);
-
-		let urlDetails = document.createElement('div');
+		let urlDetails = document.createElement('a');
 		urlDetails.classList.add('hero-modal__details');
-		urlDetails.innerText('Find on Marvel oficial');
-		urlDetails.setAttribute('href', urlArrayValue[0]);
+		urlDetails.innerText = 'Find more on Marvel oficial';
+		urlDetails.setAttribute('href', `${urlArrayValue[0]}`);
 		urlDetails.setAttribute('target', 'blank');
 		urlDetails.setAttribute(
 			'rel',
 			'noindex, nofollow, noreferrer, noopener'
 		);
+		textWrap.append(urlDetails);
 
 		let bottomSection = document.createElement('div');
 		bottomSection.classList.add('hero-modal__wrapper-bottom');
@@ -185,16 +188,16 @@ export default function Heroes() {
 
 		let bottomTitle = document.createElement('div');
 		bottomTitle.classList.add('hero-modal__bottom-title');
-		bottomTitle.innerText('comics:');
+		bottomTitle.innerText = 'comics:';
 		bottomSection.append(bottomTitle);
 
 		let allComics = comicsList(item.comics.items);
 		bottomSection.append(allComics);
 
-		let comicUrl = document.createElement('div');
+		let comicUrl = document.createElement('a');
 		comicUrl.classList.add('hero-modal__bottom-url');
-		comicUrl.innerText('Click to find more comics');
-		comicUrl.setAttribute('href', urlArrayValue[1]);
+		comicUrl.innerText = 'Click to find more comics';
+		comicUrl.setAttribute('href', `${urlArrayValue[1]}`);
 		comicUrl.setAttribute('target', 'blank');
 		comicUrl.setAttribute('rel', 'noindex, nofollow, noreferrer, noopener');
 		bottomSection.append(comicUrl);
@@ -320,10 +323,12 @@ export default function Heroes() {
 	function urlArrayGetter(array) {
 		let normalUrlArray = [];
 		array.forEach((item) => {
-			let stringForSepar = item.url;
-			let arrayForSepar = stringForSepar.split('//');
-			let addressValue = arrayForSepar[1];
-			normalUrlArray.push('https://' + addressValue);
+			if (item.type != 'wiki') {
+				let stringForSepar = item.url;
+				let arrayForSepar = stringForSepar.split('//');
+				let addressValue = arrayForSepar[1];
+				normalUrlArray.push('https://' + addressValue);
+			}
 		});
 		return normalUrlArray;
 	}
@@ -336,8 +341,8 @@ export default function Heroes() {
 
 		let progressInner = document.createElement('div');
 		progressInner.classList.add('progress__inner');
-		progressInner.style.width = `${constValue}`;
-		progressInner.style.backgroundColor = `var(${color})`;
+		progressInner.style.width = `${constValue}%`;
+		progressInner.style.backgroundColor = `${color}`;
 
 		let progressText = document.createElement('div');
 		progressText.classList.add('progress__text');
@@ -350,16 +355,26 @@ export default function Heroes() {
 	}
 
 	// створення коміксбару
-	function comicsList(element) {
+	function comicsList(arrayValue) {
 		let comicsBar = document.createElement('div');
 		comicsBar.classList.add('hero-modal__comics-bar');
-		element.forEach((item, index) => {
+		arrayValue.forEach((element, index) => {
 			let singlComics = document.createElement('div');
 			singlComics.classList.add('hero-modal__comics-item');
-			singlComics.innerText = `${index}. ${item.name}`;
+			singlComics.innerText = `${index + 1}. ${element.name}`;
 			comicsBar.append(singlComics);
 		});
 		return comicsBar;
+	}
+
+	// слухач на модалку для закриття
+	function addListenerToModal() {
+		let targetModal = document.querySelector('.hero-modal__wrapper');
+		window.addEventListener('click', (event) => {
+			if (event.target != targetModal) {
+				targetModal.parentNode.remove();
+			}
+		});
 	}
 
 	useEffect(() => {
