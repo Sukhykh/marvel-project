@@ -93,9 +93,10 @@ export default function Heroes() {
 
 	//запит на деталі по герою
 	function showHeroDetails(event) {
-		let selectedMovieId = event.target.getAttribute('data-id');
+		let heroId = event.target.getAttribute('data-id');
+		console.log(event.target);
 		axios({
-			url: `https://gateway.marvel.com:443/v1/public/characters/${selectedMovieId}`,
+			url: `https://gateway.marvel.com:443/v1/public/characters/${heroId}`,
 			method: 'GET',
 			params: {
 				apikey: APICEY,
@@ -103,38 +104,59 @@ export default function Heroes() {
 			responseType: 'json',
 		})
 			.then((res) => {
-				console.log(res.data);
-				createHeroDetails(res.data.data.results[0]);
+				let heroesMain = document.getElementById('heroes');
+				heroesMain.append(createHeroDetails(res.data.data.results[0]));
 			})
 			.catch(() => {});
 	}
 
 	// створення модалки
 	function createHeroDetails(item) {
-		urlGetter(item.thumbnail);
 		let urlValue = urlGetter(item.thumbnail);
+		console.log(item);
 
 		let heroModal = document.createElement('div');
 		heroModal.classList.add('hero-modal');
 
 		let hero = document.createElement('div');
 		hero.classList.add('hero-modal__wrapper');
+		heroModal.append(hero);
+
+		let topSection = document.createElement('div');
+		topSection.classList.add('hero-modal__wrapper-top');
+		hero.append(topSection);
 
 		let imgWrap = document.createElement('div');
 		imgWrap.classList.add('hero-modal__img-wrapper');
+		topSection.append(imgWrap);
 
 		let img = document.createElement('img');
 		img.classList.add('hero-modal__img');
 		img.setAttribute('src', urlValue);
 		img.setAttribute('alt', 'heroPoster.jpg');
+		imgWrap.append(img);
+
+		let progressBarWrap = document.createElement('div');
+		progressBarWrap.classList.add('progress');
+		imgWrap.append(progressBarWrap);
+
+		let progressStr = progressBar('strength', '--str');
+		progressBarWrap.append(progressStr);
+
+		let progressAgil = progressBar('agility', '--agil');
+		progressBarWrap.append(progressAgil);
+
+		let progressInt = progressBar('intelligence', '--int');
+		progressBarWrap.append(progressInt);
 
 		let textWrap = document.createElement('div');
 		textWrap.classList.add('hero-modal__text-wrapper');
-		textWrap.setAttribute('data-id', item.id);
+		topSection.append(textWrap);
 
 		let title = document.createElement('div');
 		title.classList.add('hero-modal__text-title');
 		title.innerText = `${item.name}`;
+		textWrap.append(title);
 
 		let descr = document.createElement('div');
 		descr.classList.add('hero-modal__text-descr');
@@ -143,6 +165,41 @@ export default function Heroes() {
 		} else {
 			descr.innerText = `${item.description}`;
 		}
+		textWrap.append(descr);
+
+		let urlArrayValue = urlArrayGetter(item.urls);
+
+		let urlDetails = document.createElement('div');
+		urlDetails.classList.add('hero-modal__details');
+		urlDetails.innerText('Find on Marvel oficial');
+		urlDetails.setAttribute('href', urlArrayValue[0]);
+		urlDetails.setAttribute('target', 'blank');
+		urlDetails.setAttribute(
+			'rel',
+			'noindex, nofollow, noreferrer, noopener'
+		);
+
+		let bottomSection = document.createElement('div');
+		bottomSection.classList.add('hero-modal__wrapper-bottom');
+		hero.append(bottomSection);
+
+		let bottomTitle = document.createElement('div');
+		bottomTitle.classList.add('hero-modal__bottom-title');
+		bottomTitle.innerText('comics:');
+		bottomSection.append(bottomTitle);
+
+		let allComics = comicsList(item.comics.items);
+		bottomSection.append(allComics);
+
+		let comicUrl = document.createElement('div');
+		comicUrl.classList.add('hero-modal__bottom-url');
+		comicUrl.innerText('Click to find more comics');
+		comicUrl.setAttribute('href', urlArrayValue[1]);
+		comicUrl.setAttribute('target', 'blank');
+		comicUrl.setAttribute('rel', 'noindex, nofollow, noreferrer, noopener');
+		bottomSection.append(comicUrl);
+
+		return heroModal;
 	}
 
 	// створення одного героя
@@ -152,9 +209,11 @@ export default function Heroes() {
 
 		let hero = document.createElement('div');
 		hero.classList.add('hero__wrapper');
+		hero.setAttribute('data-id', item.id);
 
 		let imgWrap = document.createElement('div');
 		imgWrap.classList.add('hero__img-wrapper');
+		imgWrap.setAttribute('data-id', item.id);
 
 		let img = document.createElement('img');
 		img.classList.add('hero__img');
@@ -257,13 +316,58 @@ export default function Heroes() {
 		let urlValue = 'https://' + addressValue + '.' + extensionValue;
 		return urlValue;
 	}
+	// отримання масиву посилань посилання
+	function urlArrayGetter(array) {
+		let normalUrlArray = [];
+		array.forEach((item) => {
+			let stringForSepar = item.url;
+			let arrayForSepar = stringForSepar.split('//');
+			let addressValue = arrayForSepar[1];
+			normalUrlArray.push('https://' + addressValue);
+		});
+		return normalUrlArray;
+	}
+
+	// створення прогресбарів
+	function progressBar(name, color) {
+		let constValue = Math.floor(Math.random() * 100);
+		let progressOuter = document.createElement('div');
+		progressOuter.classList.add('progress__outer');
+
+		let progressInner = document.createElement('div');
+		progressInner.classList.add('progress__inner');
+		progressInner.style.width = `${constValue}`;
+		progressInner.style.backgroundColor = `var(${color})`;
+
+		let progressText = document.createElement('div');
+		progressText.classList.add('progress__text');
+		progressText.innerText = `${name}: ${constValue}`;
+
+		progressOuter.append(progressInner);
+		progressOuter.append(progressText);
+
+		return progressOuter;
+	}
+
+	// створення коміксбару
+	function comicsList(element) {
+		let comicsBar = document.createElement('div');
+		comicsBar.classList.add('hero-modal__comics-bar');
+		element.forEach((item, index) => {
+			let singlComics = document.createElement('div');
+			singlComics.classList.add('hero-modal__comics-item');
+			singlComics.innerText = `${index}. ${item.name}`;
+			comicsBar.append(singlComics);
+		});
+		return comicsBar;
+	}
 
 	useEffect(() => {
 		getAllHeroes(undefined, 0);
 	}, []);
 
 	return (
-		<div className='heroes'>
+		<div className='heroes' id='heroes'>
 			<div className='heroes__wrapper'>
 				<SliderHeroes />
 				<div className='heroes__search'>

@@ -2,6 +2,7 @@
 
 .main {
     background-color: var(--globalBackgroundColor);
+    position: relative;
 
     &__container {
         background-color: var(--globalBackgroundColorRevers);

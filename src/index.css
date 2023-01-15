@@ -4,6 +4,12 @@
     --gray: #d3d3d3;
     --black: #000000;
     --white: #ffffff;
+
+    --int: #1F51FF;
+    --agil: #FFF01F;
+    --str: #ED1D24;
+    
+
 }
 
 html[data-theme='heroes'] {
