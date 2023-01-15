@@ -1,7 +1,5 @@
 import '../assets/css/Heroes.scss';
 
-import SliderHeroes from './SliderHeroes';
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -70,6 +68,7 @@ export default function Heroes() {
 					return;
 				}
 				mainBlock.innerHTML = '';
+				heroName.value = '';
 
 				if (res.data.data.results.length === 0) {
 					setPlaceholder(placeholderValue[2]);
@@ -105,10 +104,6 @@ export default function Heroes() {
 			.then((res) => {
 				let heroesMain = document.getElementById('heroes');
 				heroesMain.append(createHeroDetails(res.data.data.results[0]));
-				window.scrollTo({
-					top: 0,
-					behavior: 'smooth',
-				});
 				addListenerToModal();
 			})
 			.catch(() => {});
@@ -369,10 +364,10 @@ export default function Heroes() {
 
 	// слухач на модалку для закриття
 	function addListenerToModal() {
-		let targetModal = document.querySelector('.hero-modal__wrapper');
+		let targetModal = document.querySelector('.hero-modal');
 		window.addEventListener('click', (event) => {
-			if (event.target != targetModal) {
-				targetModal.parentNode.remove();
+			if (event.target === targetModal) {
+				targetModal.remove();
 			}
 		});
 	}
@@ -384,7 +379,6 @@ export default function Heroes() {
 	return (
 		<div className='heroes' id='heroes'>
 			<div className='heroes__wrapper'>
-				<SliderHeroes />
 				<div className='heroes__search'>
 					<input
 						className='heroes__search-area'
