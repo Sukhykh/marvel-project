@@ -68,7 +68,6 @@ export default function Comics() {
 					return;
 				}
 				mainBlock.innerHTML = '';
-				comicsTitleValue.value = '';
 
 				if (res.data.data.results.length === 0) {
 					setPlaceholder(placeholderValue[2]);

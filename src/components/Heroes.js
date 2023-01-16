@@ -68,7 +68,6 @@ export default function Heroes() {
 					return;
 				}
 				mainBlock.innerHTML = '';
-				heroName.value = '';
 
 				if (res.data.data.results.length === 0) {
 					setPlaceholder(placeholderValue[2]);
