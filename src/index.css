@@ -57,6 +57,29 @@ html[data-theme='comics'] {
     --globalLinctColorRevers: var(--white);
 
     --globalLincHoverColor: var(--redNeon);
-    --globalLincHoverColorRevers: var(--greenNeon);
-    
+    --globalLincHoverColorRevers: var(--greenNeon);    
+}
+
+#comics .hero-modal {
+    --globalBackgroundColor: var(--white);
+    --globalBackgroundColorRevers: var(--black);
+
+    --globalTextColor: var(--black);
+    --globalTextColorRevers: var(--white);
+
+    --globalThemeColor: var(--redNeon);
+    --globalThemeColorRevers: var(--greenNeon);
+
+    /*special*/
+    --globalFirstShadowColor: var(--black);
+    --globalFirstShadowColorRevers: var(--white);
+
+    --globalSecondShadowColor: var(--greenNeon);
+    --globalSecondShadowColorRevers: var(--redNeon);
+
+    --globalLincColor: var(--white);
+    --globalLinctColorRevers: var(--black);
+
+    --globalLincHoverColor: var(--greenNeon);
+    --globalLincHoverColorRevers: var(--redNeon);
 }

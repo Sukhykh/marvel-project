@@ -200,6 +200,7 @@
         left: 0;
         top: 0;
         margin-top: 2rem;
+        margin-inline: 0.5rem;
         color: var(--globalThemeColorRevers);
         @include font($fw700);
         font-size: 2rem;
@@ -254,7 +255,6 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        //@include container;
         border-right: 0.3rem solid var(--globalThemeColorRevers);
         border-bottom: 0.3rem solid var(--globalThemeColorRevers);
         border-bottom-right-radius: 2rem;

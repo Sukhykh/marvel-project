@@ -113,10 +113,91 @@ export default function Comics() {
 
 	// створення модалки
 	function createComicsDetails(item) {
-		console.log('hello');
-		let test = document.createElement('div');
-		test.innerText = item;
-		return test;
+		console.log(item);
+		let urlValue = urlGetter(item.thumbnail);
+
+		let stringForSepar = item.urls[0].url;
+		let arrayForSepar = stringForSepar.split('//');
+		let addressValue = arrayForSepar[1];
+		let urlDetailsValue = 'https://' + addressValue;
+
+		let comicsModal = document.createElement('div');
+		comicsModal.classList.add('comics-modal');
+
+		let comics = document.createElement('div');
+		comics.classList.add('comics-modal__wrapper');
+		comicsModal.append(comics);
+
+		let topSection = document.createElement('div');
+		topSection.classList.add('comics-modal__wrapper-top');
+		comics.append(topSection);
+
+		let imgWrap = document.createElement('div');
+		imgWrap.classList.add('comics-modal__img-wrapper');
+		topSection.append(imgWrap);
+
+		let img = document.createElement('img');
+		img.classList.add('comics-modal__img');
+		img.setAttribute('src', urlValue);
+		img.setAttribute('alt', 'comicsPoster.jpg');
+		imgWrap.append(img);
+
+		let characterBar = document.createElement('div');
+		characterBar.classList.add('comics-modal__characters-wrapper');
+		imgWrap.append(characterBar);
+
+		item.characters.items.forEach((item) => {
+			let character = document.createElement('div');
+			character.classList.add('comics-modal__characters-item');
+			character.innerText = item.name;
+			let stringForSId = item.resourceURI;
+			let arrayForSId = stringForSId.split('/');
+			let idValue = arrayForSId[arrayForSId.length - 1];
+			character.setAttribute('data-id', `${idValue}`);
+			characterBar.append(character);
+			addEventlistenertoCharacterName(character);
+		});
+
+		let textWrap = document.createElement('div');
+		textWrap.classList.add('comics-modal__text-wrapper');
+		topSection.append(textWrap);
+
+		let title = document.createElement('div');
+		title.classList.add('comics-modal__text-title');
+		title.innerText = `${item.title}`;
+		textWrap.append(title);
+
+		let descr = document.createElement('div');
+		descr.classList.add('comics-modal__text-descr');
+		if (item.description === '' || item.description === null) {
+			descr.innerText = `Description not available ...`;
+		} else {
+			descr.innerText = `${item.description}`;
+		}
+		textWrap.append(descr);
+
+		let creatorsBar = document.createElement('div');
+		creatorsBar.classList.add('comics-modal__creators-wrapper');
+		textWrap.append(creatorsBar);
+
+		item.creators.items.forEach((item) => {
+			let creators = document.createElement('div');
+			creators.classList.add('comics-modal__creators-item');
+			creators.innerText = `${item.role}: ${item.name}`;
+			creatorsBar.append(creators);
+		});
+
+		let urlDetails = document.createElement('a');
+		urlDetails.classList.add('comics-modal__details');
+		urlDetails.innerText = 'Find more on Marvel oficial';
+		urlDetails.setAttribute('href', `${urlDetailsValue}`);
+		urlDetails.setAttribute('target', 'blank');
+		urlDetails.setAttribute(
+			'rel',
+			'noindex, nofollow, noreferrer, noopener'
+		);
+		textWrap.append(urlDetails);
+		return comicsModal;
 	}
 	// створення одного комікса
 	function createComicsItem(item) {
@@ -239,12 +320,191 @@ export default function Comics() {
 
 	// слухач на модалку для закриття
 	function addListenerToModal() {
-		let targetModal = document.querySelector('.book-modal');
+		let targetModal = document.querySelector('.comics-modal');
 		window.addEventListener('click', (event) => {
 			if (event.target === targetModal) {
 				targetModal.remove();
 			}
 		});
+	}
+
+	//слухачі на клік для персонажей
+	function addEventlistenertoCharacterName(item) {
+		item.addEventListener('click', (event) => {
+			let targetId = event.target.getAttribute('data-id');
+			showHeroDetails(event, targetId);
+		});
+	}
+
+	//запит на деталі по герою
+	function showHeroDetails(event, idValue) {
+		axios({
+			url: `https://gateway.marvel.com:443/v1/public/characters/${idValue}`,
+			method: 'GET',
+			params: {
+				apikey: APICEY,
+			},
+			responseType: 'json',
+		})
+			.then((res) => {
+				let heroesMain = document.getElementById('comics');
+				let comicsModal = document.querySelector('.comics-modal');
+				comicsModal.style.opasity = '0';
+				heroesMain.append(createHeroDetails(res.data.data.results[0]));
+				addListenerToModalHero();
+			})
+			.catch(() => {});
+	}
+
+	// слухач на модалку для закриття модалки героїв
+	function addListenerToModalHero() {
+		let targetModal = document.querySelector('.hero-modal');
+		window.addEventListener('click', (event) => {
+			if (event.target === targetModal) {
+				let comicsModal = document.querySelector('.comics-modal');
+				comicsModal.style.opasity = '1';
+				targetModal.remove();
+			}
+		});
+	}
+
+	// створення модалки
+	function createHeroDetails(item) {
+		let urlArrayValue = urlArrayGetter(item.urls);
+		let urlValue = urlGetter(item.thumbnail);
+
+		let heroModal = document.createElement('div');
+		heroModal.classList.add('hero-modal');
+
+		let hero = document.createElement('div');
+		hero.classList.add('hero-modal__wrapper');
+		heroModal.append(hero);
+
+		let topSection = document.createElement('div');
+		topSection.classList.add('hero-modal__wrapper-top');
+		hero.append(topSection);
+
+		let imgWrap = document.createElement('div');
+		imgWrap.classList.add('hero-modal__img-wrapper');
+		topSection.append(imgWrap);
+
+		let img = document.createElement('img');
+		img.classList.add('hero-modal__img');
+		img.setAttribute('src', urlValue);
+		img.setAttribute('alt', 'heroPoster.jpg');
+		imgWrap.append(img);
+
+		let progressBarWrap = document.createElement('div');
+		progressBarWrap.classList.add('progress');
+		imgWrap.append(progressBarWrap);
+
+		let progressStr = progressBar('strength', '#ED1D24');
+		progressBarWrap.append(progressStr);
+
+		let progressAgil = progressBar('agility', '#FF5F1F');
+		progressBarWrap.append(progressAgil);
+
+		let progressInt = progressBar('intelligence', '#1F51FF');
+		progressBarWrap.append(progressInt);
+
+		let textWrap = document.createElement('div');
+		textWrap.classList.add('hero-modal__text-wrapper');
+		topSection.append(textWrap);
+
+		let title = document.createElement('div');
+		title.classList.add('hero-modal__text-title');
+		title.innerText = `${item.name}`;
+		textWrap.append(title);
+
+		let descr = document.createElement('div');
+		descr.classList.add('hero-modal__text-descr');
+		if (!item.description.length || item.description.length === ' ') {
+			descr.innerText = `Description not available ...`;
+		} else {
+			descr.innerText = `${item.description}`;
+		}
+		textWrap.append(descr);
+
+		let urlDetails = document.createElement('a');
+		urlDetails.classList.add('hero-modal__details');
+		urlDetails.innerText = 'Find more on Marvel oficial';
+		urlDetails.setAttribute('href', `${urlArrayValue[0]}`);
+		urlDetails.setAttribute('target', 'blank');
+		urlDetails.setAttribute(
+			'rel',
+			'noindex, nofollow, noreferrer, noopener'
+		);
+		textWrap.append(urlDetails);
+
+		let bottomSection = document.createElement('div');
+		bottomSection.classList.add('hero-modal__wrapper-bottom');
+		hero.append(bottomSection);
+
+		let bottomTitle = document.createElement('div');
+		bottomTitle.classList.add('hero-modal__bottom-title');
+		bottomTitle.innerText = 'comics:';
+		bottomSection.append(bottomTitle);
+
+		let allComics = comicsList(item.comics.items);
+		bottomSection.append(allComics);
+
+		let comicUrl = document.createElement('a');
+		comicUrl.classList.add('hero-modal__bottom-url');
+		comicUrl.innerText = 'Click to find more comics';
+		comicUrl.setAttribute('href', `${urlArrayValue[1]}`);
+		comicUrl.setAttribute('target', 'blank');
+		comicUrl.setAttribute('rel', 'noindex, nofollow, noreferrer, noopener');
+		bottomSection.append(comicUrl);
+
+		return heroModal;
+	}
+
+	// отримання масиву посилань посилання
+	function urlArrayGetter(array) {
+		let normalUrlArray = [];
+		array.forEach((item) => {
+			if (item.type != 'wiki') {
+				let stringForSepar = item.url;
+				let arrayForSepar = stringForSepar.split('//');
+				let addressValue = arrayForSepar[1];
+				normalUrlArray.push('https://' + addressValue);
+			}
+		});
+		return normalUrlArray;
+	}
+
+	// створення прогресбарів
+	function progressBar(name, color) {
+		let constValue = Math.floor(Math.random() * 100);
+		let progressOuter = document.createElement('div');
+		progressOuter.classList.add('progress__outer');
+
+		let progressInner = document.createElement('div');
+		progressInner.classList.add('progress__inner');
+		progressInner.style.width = `${constValue}%`;
+		progressInner.style.backgroundColor = `${color}`;
+
+		let progressText = document.createElement('div');
+		progressText.classList.add('progress__text');
+		progressText.innerText = `${name}: ${constValue}`;
+
+		progressOuter.append(progressInner);
+		progressOuter.append(progressText);
+
+		return progressOuter;
+	}
+
+	// створення коміксбару
+	function comicsList(arrayValue) {
+		let comicsBar = document.createElement('div');
+		comicsBar.classList.add('hero-modal__comics-bar');
+		arrayValue.forEach((element, index) => {
+			let singlComics = document.createElement('div');
+			singlComics.classList.add('hero-modal__comics-item');
+			singlComics.innerText = `${index + 1}. ${element.name}`;
+			comicsBar.append(singlComics);
+		});
+		return comicsBar;
 	}
 
 	useEffect(() => {
