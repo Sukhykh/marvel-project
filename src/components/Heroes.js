@@ -1,4 +1,4 @@
-import '../assets/css/Heroes.scss';
+import '../assets/css/_Heroes.scss';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';

@@ -1,4 +1,4 @@
-import '../assets/css/Comics.scss';
+import '../assets/css/_Comics.scss';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -7,7 +7,7 @@ export default function Comics() {
 	const APICEY = 'a5837db97d72016c81a7a776f4240db9';
 	const LINK = 'https://gateway.marvel.com:443/v1/public/comics?';
 	const placeholderValue = [
-		'What hero do you want to find?',
+		'What book do you want to find?',
 		'You have to input some title!',
 		'Comics were not found...',
 	];

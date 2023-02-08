@@ -1,4 +1,4 @@
-import '../assets/css/Footer.scss';
+import '../assets/css/_Footer.scss';
 
 import Logo from './Logo';
 

@@ -1,4 +1,4 @@
-import '../assets/css/Logo.scss';
+import '../assets/css/_Logo.scss';
 import logo from '../assets/img/sprite.svg';
 
 function Logo(props) {

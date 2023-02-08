@@ -1,4 +1,4 @@
-import '../assets/css/MenuFull.scss';
+import '../assets/css/_MenuFull.scss';
 import heroes from '../assets/img/heroesIcon.png';
 import comics from '../assets/img/comicsIcon.png';
 
@@ -46,6 +46,7 @@ function MenuFull() {
 
 	const [isActiveHeroes, setIsActiveHeroes] = useState(themeCheckHeroes);
 	const [isActiveComics, setIsActiveComics] = useState(themeCheckHComics);
+
 	const handleClickHeroes = () => {
 		setIsActiveHeroes((current) => !current);
 	};

@@ -3,7 +3,7 @@ import Heroes from './components/Heroes';
 import Comics from './components/Comics';
 import Footer from './components/Footer';
 
-import './assets/css/App.scss';
+import './assets/css/_App.scss';
 
 import { Routes, Route } from 'react-router-dom';
 

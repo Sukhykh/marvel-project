@@ -7,9 +7,9 @@ import { BrowserRouter } from 'react-router-dom';
 
 //styles
 import './index.css';
-import './assets/css/general/normalize.scss';
-import './assets/css/general/reset.scss';
-import './assets/css/general/general.scss';
+import './assets/css/general/_normalize.scss';
+import './assets/css/general/_reset.scss';
+import './assets/css/general/_general.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
